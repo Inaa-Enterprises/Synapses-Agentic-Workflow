@@ -1,0 +1,49 @@
+<!-- FILE REMOVED: Obsolete test.html deleted per ali_development_schedule.md. No longer part of production code. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALI Test</title>
+    <style>
+        body { background: #000; color: #00ff41; font-family: monospace; padding: 20px; }
+        input { background: #111; color: #00ff41; border: 1px solid #00ff41; padding: 10px; width: 300px; }
+        button { background: #111; color: #00ff41; border: 1px solid #00ff41; padding: 10px; cursor: pointer; }
+        #output { margin-top: 20px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>ALI System Test</h1>
+    <input type="text" id="command" placeholder="Enter command..." value="help">
+    <button onclick="sendCommand()">Send</button>
+    <div id="output"></div>
+
+    <script>
+        async function sendCommand() {
+            const command = document.getElementById('command').value;
+            const output = document.getElementById('output');
+            
+            try {
+                output.innerHTML += 'Sending: ' + command + '\n';
+                
+                const response = await fetch('http://localhost:9000/api/ali', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_query: command,
+                        current_mode: 'operator',
+                        session_id: 'test'
+                    })
+                });
+                
+                const result = await response.json();
+                output.innerHTML += 'Response: ' + JSON.stringify(result, null, 2) + '\n\n';
+                
+            } catch (error) {
+                output.innerHTML += 'Error: ' + error.message + '\n\n';
+            }
+        }
+    </script>
+</body>
+</html>

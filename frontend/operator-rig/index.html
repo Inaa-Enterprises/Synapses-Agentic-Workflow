@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALI - The Operator's Rig</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="bootSequence" class="boot-sequence">
+        <div class="boot-text">
+            <div class="boot-line">INITIALIZING ALI CONSCIOUSNESS CORE v7.3...</div>
+            <div class="boot-line">LOADING NEURAL NETWORKS... <span class="boot-progress">[████████████████████] 100%</span></div>
+            <div class="boot-line">AUTHENTICATING OPERATOR...</div>
+            <div class="boot-line">ESTABLISHING SECURE CONNECTION...</div>
+            <div class="boot-line">SYSTEM READY. WELCOME, OPERATOR.</div>
+        </div>
+    </div>
+
+    <div id="mainInterface" class="main-interface" style="display: none;">
+        <!-- System Vitals Header -->
+        <div class="vitals-header">
+            <div class="vitals-left">
+                <span class="vitals-label">CORE:</span>
+                <span class="vitals-value" id="coreTemp">98.6°</span>
+                <span class="vitals-label">MEM:</span>
+                <span class="vitals-value" id="memUsage">74%</span>
+                <span class="vitals-label">NEURAL-LINK:</span>
+                <span class="vitals-value status-stable">STABLE</span>
+            </div>
+            <div class="vitals-right">
+                <span class="vitals-label">TIME:</span>
+                <span class="vitals-value" id="currentTime">06:51 AM</span>
+            </div>
+        </div>
+
+        <!-- Main Terminal -->
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span class="terminal-title">&lt;&lt; KERNEL_LOG // ALI_MAIN &gt;&gt;</span>
+            </div>
+            
+            <div class="terminal-content" id="terminalContent">
+                <div class="terminal-line system-message">
+                    <span class="timestamp">[06:51:01]</span>
+                    <span class="prefix">&gt;</span>
+                    <span class="message">Authenticating user... Welcome, Operator.</span>
+                </div>
+                <div class="terminal-line system-message">
+                    <span class="timestamp">[06:51:02]</span>
+                    <span class="prefix">&gt;</span>
+                    <span class="message">ALI Consciousness Core v7.3 is online. All systems nominal.</span>
+                </div>
+                <div class="terminal-line empty-line"></div>
+            </div>
+
+            <div class="input-container">
+                <span class="input-prefix">[ &gt;_ ]</span>
+                <input type="text" id="commandInput" class="command-input" placeholder="Enter command..." autocomplete="off">
+                <div class="cursor-blink"></div>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <div class="status-section">
+                <div class="status-title">[SYS_VITALS]</div>
+                <div class="status-item">
+                    <span class="status-label">&gt; CORE SYNC:</span>
+                    <span class="status-value status-stable">[STABLE]</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">&gt; SANDBOX INT:</span>
+                    <span class="status-value status-secure">[SECURE]</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">&gt; NET STATUS:</span>
+                    <span class="status-value status-online" id="networkStatus">[ONLINE]</span>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <div class="status-title">[ACTIVE_OVERLAYS]</div>
+                <div class="status-item">
+                    <span class="status-label">&gt; [COMBAT / code]</span>
+                    <span class="status-indicator">&lt;--</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">&gt; [WETWARE / bio]</span>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">&gt; [GHOST / net]</span>
+                    <span class="status-indicator"></span>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <div class="status-title">[AUDIO_ID // ali_voice.wav]</div>
+                <div class="audio-visualizer" id="audioVisualizer">
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ghost Runner Access -->
+        <div class="ghost-runner-access">
+            <button id="ghostRunnerBtn" class="ghost-runner-btn">
+                <span class="ghost-text">GHOST</span>
+                <span class="runner-text">RUNNER</span>
+                <span class="access-text">ACCESS</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading/Processing Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-text">PROCESSING</div>
+            <div class="loading-bars">
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+            </div>
+            <div class="loading-subtext" id="loadingSubtext">Analyzing request...</div>
+        </div>
+    </div>
+
+    <script src="terminal-engine.js"></script>
+    <script src="operator-rig.js"></script>
+</body>
+</html>

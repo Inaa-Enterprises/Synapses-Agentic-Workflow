@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALI - The Ghost-Runner's Deck</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+</head>
+<body>
+    <div id="ghostRunnerInterface" class="ghost-runner-interface">
+        <!-- Header -->
+        <div class="ghost-header">
+            <div class="header-left">
+                <span class="ghost-title">ALI // GHOST-RUNNER DECK v2.1</span>
+            </div>
+            <div class="header-center">
+                <span class="intrusion-status">INTRUSION DETECTED: <span id="intrusionCount">0</span></span>
+            </div>
+            <div class="header-right">
+                <span class="daemon-status">ACTIVE DAEMONS: <span id="activeDaemons">3</span></span>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Left Panel - Daemon Roster -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <span class="panel-title">&lt;&lt; DAEMON_ROSTER &gt;&gt;</span>
+                </div>
+                
+                <div class="daemon-list" id="daemonList">
+                    <div class="daemon-item active" data-daemon-id="bug-eater">
+                        <div class="daemon-header">
+                            <span class="daemon-status-indicator active"></span>
+                            <span class="daemon-name">BUG-EATER</span>
+                            <span class="daemon-state">[●]</span>
+                        </div>
+                        <div class="daemon-stats">
+                            <span class="stat">CPU: <span class="stat-value">35%</span></span>
+                            <span class="stat">RAM: <span class="stat-value">4.1GB</span></span>
+                        </div>
+                        <div class="daemon-capability">Code Analysis & Debug</div>
+                    </div>
+                    
+                    <div class="daemon-item idle" data-daemon-id="data-thief">
+                        <div class="daemon-header">
+                            <span class="daemon-status-indicator idle"></span>
+                            <span class="daemon-name">DATA-THIEF</span>
+                            <span class="daemon-state">[ ]</span>
+                        </div>
+                        <div class="daemon-stats">
+                            <span class="stat">CPU: <span class="stat-value">12%</span></span>
+                            <span class="stat">RAM: <span class="stat-value">2.3GB</span></span>
+                        </div>
+                        <div class="daemon-capability">Data Extraction & Processing</div>
+                    </div>
+                    
+                    <div class="daemon-item active" data-daemon-id="net-spider">
+                        <div class="daemon-header">
+                            <span class="daemon-status-indicator active"></span>
+                            <span class="daemon-name">NET-SPIDER</span>
+                            <span class="daemon-state">[●]</span>
+                        </div>
+                        <div class="daemon-stats">
+                            <span class="stat">CPU: <span class="stat-value">67%</span></span>
+                            <span class="stat">RAM: <span class="stat-value">1.8GB</span></span>
+                        </div>
+                        <div class="daemon-capability">Network Monitoring & Analysis</div>
+                    </div>
+                </div>
+                
+                <div class="daemon-controls">
+                    <button class="control-btn create-daemon-btn" id="createDaemonBtn">
+                        <span class="btn-icon">+</span>
+                        <span class="btn-text">CREATE DAEMON</span>
+                    </button>
+                    <button class="control-btn deploy-btn" id="deployBtn">
+                        <span class="btn-icon">⚡</span>
+                        <span class="btn-text">DEPLOY</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Center Panel - 3D Workflow Canvas -->
+            <div class="center-panel">
+                <div class="panel-header">
+                    <span class="panel-title">&lt;&lt; DATA_FORTRESS // TARGET: <span id="currentTarget">BUG-EATER.EXE</span> &gt;&gt;</span>
+                    <div class="canvas-controls">
+                        <button class="canvas-btn" id="resetViewBtn">RESET VIEW</button>
+                        <button class="canvas-btn" id="fullscreenBtn">FULLSCREEN</button>
+                    </div>
+                </div>
+                
+                <div class="workflow-canvas" id="workflowCanvas">
+                    <!-- Three.js canvas will be inserted here -->
+                </div>
+                
+                <div class="canvas-overlay">
+                    <div class="grid-info">
+                        <span>GRID: ACTIVE</span>
+                        <span>SCALE: 1:1</span>
+                        <span>NODES: <span id="nodeCount">5</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Node Inspector -->
+            <div class="right-panel">
+                <div class="panel-header">
+                    <span class="panel-title">&lt;&lt; NODE_INSPECTOR &gt;&gt;</span>
+                </div>
+                
+                <div class="inspector-content" id="inspectorContent">
+                    <div class="no-selection">
+                        <div class="no-selection-icon">◯</div>
+                        <div class="no-selection-text">Select a node to inspect</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Panel - System Log -->
+        <div class="bottom-panel">
+            <div class="panel-header">
+                <span class="panel-title">&lt;&lt; SYS_LOG // STREAM &gt;&gt;</span>
+                <div class="log-controls">
+                    <button class="log-btn" id="clearLogBtn">CLEAR</button>
+                    <button class="log-btn" id="pauseLogBtn">PAUSE</button>
+                </div>
+            </div>
+            
+            <div class="log-content" id="logContent">
+                <div class="log-line">
+                    <span class="log-timestamp">06:51:55:01:</span>
+                    <span class="log-message">DAEMON 'BUG-EATER' init... lockdown sequence engaged.</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-timestamp">06:51:57:45:</span>
+                    <span class="log-message">CONSTRUCT [&lt;04&gt;] executed... analyzing data signature of issue #501.</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-timestamp">06:51:59:12:</span>
+                    <span class="log-message">NET-SPIDER: Scanning subnet 192.168.1.0/24... 47 hosts discovered.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Action Button - Return to Operator Rig -->
+        <div class="return-to-rig">
+            <button id="returnToRigBtn" class="return-btn">
+                <span class="return-icon">◀</span>
+                <span class="return-text">OPERATOR RIG</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Node Creation Modal -->
+    <div id="nodeCreationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">CREATE NEW NODE</span>
+                <button class="modal-close" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Node Type:</label>
+                    <select id="nodeTypeSelect">
+                        <option value="input">Input Node</option>
+                        <option value="process">Process Node</option>
+                        <option value="decision">Decision Node</option>
+                        <option value="output">Output Node</option>
+                        <option value="daemon">Daemon Node</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Node Name:</label>
+                    <input type="text" id="nodeNameInput" placeholder="Enter node name...">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="nodeDescInput" placeholder="Enter node description..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button class="modal-btn cancel" id="cancelNodeBtn">CANCEL</button>
+                    <button class="modal-btn create" id="confirmCreateBtn">CREATE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">SYNCHRONIZING WITH ALI CORE...</div>
+        </div>
+    </div>
+
+    <script src="workflow-engine.js"></script>
+    <script src="ghost-runner.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALI - Autonomous Intelligence Loop</title>
+    <link rel="stylesheet" href="cyberpunk.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="ali-main-container">
+        <!-- System Vitals Header -->
+        <div id="vitals-header">
+            <div class="vitals-section">
+                <span class="vital-label">CORE:</span>
+                <span class="vital-value" id="core-temp">98.6°</span>
+            </div>
+            <div class="vitals-section">
+                <span class="vital-label">MEM:</span>
+                <span class="vital-value" id="memory-usage">74%</span>
+            </div>
+            <div class="vitals-section">
+                <span class="vital-label">NEURAL-LINK:</span>
+                <span class="vital-value status-stable" id="neural-status">STABLE</span>
+            </div>
+            <div class="vitals-section time-section">
+                <span class="vital-label">TIME:</span>
+                <span class="vital-value" id="system-time">06:51 AM</span>
+            </div>
+        </div>
+
+        <!-- Main Interface Canvas -->
+        <canvas id="ali-canvas" width="1920" height="1080"></canvas>
+
+        <!-- Interface Mode Selector -->
+        <div id="interface-controls">
+            <div class="control-section">
+                <span class="control-label">SYS_VITALS</span>
+                <div class="status-indicators">
+                    <div class="status-item">
+                        <span class="status-label">CORE SYNC:</span>
+                        <span class="status-value stable">STABLE</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">FLOWISE_CONN:</span>
+                        <span class="status-value secure">SECURE</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-section interface-mode">
+                <span class="control-label">INTERFACE_MODE</span>
+                <div class="mode-selector">
+                    <button id="operator-rig-btn" class="mode-btn active">OPERATOR_RIG</button>
+                    <button id="ghost-deck-btn" class="mode-btn">GHOST_DECK</button>
+                </div>
+            </div>
+            
+            <div class="control-section audio-section">
+                <span class="control-label">AUDIO_ID // ali_voice.wav</span>
+                <div class="audio-visualizer">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operator's Rig Terminal Input -->
+        <div id="operator-input-panel" class="input-panel active">
+            <div class="terminal-line">
+                <span class="prompt-indicator">[ 👤 OPERATOR ] ></span>
+                <textarea id="command-input" placeholder="Enter command or attach files..."
+                    rows="2" spellcheck="false"></textarea>
+                <button id="file-attach-btn" class="attach-btn" title="Attach Files">📎</button>
+                <input type="file" id="file-input" multiple style="display: none;">
+            </div>
+            <div class="input-controls">
+                <button id="execute-btn" class="execute-btn">EXECUTE</button>
+                <button id="clear-btn" class="clear-btn">CLEAR</button>
+                <div class="model-selector">
+                    <label for="model-select">LLM:</label>
+                    <select id="model-select">
+                        <option value="gemini">Gemini</option>
+                        <option value="grok">Grok</option>
+                        <option value="deepseek">DeepSeek</option>
+                        <option value="local">Local</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ghost-Runner's Deck Controls -->
+        <div id="ghost-deck-controls" class="deck-controls hidden">
+            <div class="deck-section">
+                <h3>AGENT FOUNDRY</h3>
+                <button id="create-agent-btn" class="foundry-btn">CREATE_NEW_AGENT</button>
+                <button id="clone-flow-btn" class="foundry-btn">CLONE_CHATFLOW</button>
+            </div>
+            <div class="deck-section">
+                <h3>WORKFLOW_MONITOR</h3>
+                <div class="workflow-status">
+                    <div class="flow-indicator active">MULTI_AGENT_REASONING</div>
+                    <div class="flow-indicator">ADAPTIVE_CONTEXT</div>
+                    <div class="flow-indicator">EMOTIONAL_MEMORY</div>
+                </div>
+            </div>
+            <div class="deck-section">
+                <h3>SYSTEM_OVERRIDE</h3>
+                <button id="flowise-dashboard-btn" class="override-btn">FLOWISE_DASHBOARD</button>
+                <button id="vector-store-btn" class="override-btn">VECTOR_STORE</button>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h3>ALI PROCESSING</h3>
+                <p id="loading-status">Initializing multi-agent reasoning...</p>
+                <div class="agent-status">
+                    <div class="agent-indicator" id="analyzer-status">ANALYZER</div>
+                    <div class="agent-indicator" id="creative-status">CREATIVE</div>
+                    <div class="agent-indicator" id="critic-status">CRITIC</div>
+                    <div class="agent-indicator" id="synthesizer-status">SYNTHESIZER</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="error-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>SYSTEM ERROR</h3>
+                <p id="error-message">Connection to Flowise backend failed.</p>
+                <button id="error-close-btn" class="modal-btn">ACKNOWLEDGE</button>
+            </div>
+        </div>
+
+        <!-- File Upload Modal -->
+        <div id="file-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>FILE UPLOAD</h3>
+                <div id="file-list" class="file-list"></div>
+                <div class="modal-actions">
+                    <button id="upload-confirm-btn" class="modal-btn">UPLOAD</button>
+                    <button id="upload-cancel-btn" class="modal-btn secondary">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core JavaScript Modules -->
+    <script src="ali-core.js"></script>
+    <script src="operator-rig.js"></script>
+    <script src="ghost-deck.js"></script>
+
+    <script>
+        // Initialize ALI System
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Initializing ALI - Autonomous Intelligence Loop...');
+            window.ALI = new ALICore();
+            window.ALI.initialize();
+        });
+    </script>
+</body>
+</html>

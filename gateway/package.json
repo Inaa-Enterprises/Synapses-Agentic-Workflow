@@ -1,0 +1,23 @@
+{
+  "name": "ali-api-gateway",
+  "version": "1.0.0",
+  "description": "Production-grade API Gateway for ALI (Express, TypeScript, JWT, rate limiting)",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "jsonwebtoken": "^9.0.2",
+    "express-rate-limit": "^7.0.0",
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.30"
+  }
+}

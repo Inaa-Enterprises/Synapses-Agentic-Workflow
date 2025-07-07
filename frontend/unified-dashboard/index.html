@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALI - Unified Command Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="title">ALI</h1>
+                <span class="subtitle">Autonomous Intelligence Loop</span>
+            </div>
+            <div class="header-center">
+                <div class="status-indicator">
+                    <div class="status-dot active"></div>
+                    <span class="status-text">ONLINE</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="model-selector">
+                    <label for="modelSelect">Model:</label>
+                    <select id="modelSelect">
+                        <option value="gemini">Gemini (Cloud)</option>
+                        <option value="grok">Grok (Cloud)</option>
+                        <option value="deepseek">DeepSeek (Cloud)</option>
+                        <option value="local">Local Model</option>
+                        <option value="fallback">Fallback Mode</option>
+                    </select>
+                </div>
+                <div class="system-time" id="systemTime"></div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel - Input & Control -->
+            <div class="left-panel">
+                <div class="input-section">
+                    <h3>Command Input</h3>
+                    <div class="input-container">
+                        <textarea id="commandInput" placeholder="Enter your command or task...
+Examples:
+• Create a website for my portfolio
+• Execute Python code to analyze data
+• Make an agent for monitoring
+• Create files for project setup"></textarea>
+                        <button id="executeBtn" class="execute-btn">
+                            <span class="btn-text">Execute</span>
+                            <span class="btn-icon">⚡</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn" data-action="create website">🌐 Create Website</button>
+                        <button class="action-btn" data-action="execute code">💻 Execute Code</button>
+                        <button class="action-btn" data-action="make agent">🤖 Make Agent</button>
+                        <button class="action-btn" data-action="create files">📁 Create Files</button>
+                        <button class="action-btn" data-action="analyze system">📊 Analyze System</button>
+                        <button class="action-btn" data-action="monitor resources">🔍 Monitor Resources</button>
+                    </div>
+                </div>
+
+                <div class="system-controls">
+                    <h3>System Controls</h3>
+                    <div class="control-buttons">
+                        <button id="clearBtn" class="control-btn">🗑️ Clear</button>
+                        <button id="saveBtn" class="control-btn">💾 Save Session</button>
+                        <button id="loadBtn" class="control-btn">📂 Load Session</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel - Work Display -->
+            <div class="center-panel">
+                <div class="work-display">
+                    <h3>Real-Time Work Display</h3>
+                    <div class="work-container" id="workContainer">
+                        <div class="work-item welcome">
+                            <div class="work-header">
+                                <span class="work-time">[System Ready]</span>
+                                <span class="work-type">INIT</span>
+                            </div>
+                            <div class="work-content">
+                                ALI Unified Dashboard initialized. Ready for commands.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-panel">
+                    <h3>Results & Output</h3>
+                    <div class="results-container" id="resultsContainer">
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span class="result-status ready">Ready</span>
+                                <span class="result-time">System Online</span>
+                            </div>
+                            <div class="result-content">
+                                Waiting for commands...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Info & Status -->
+            <div class="right-panel">
+                <div class="system-vitals">
+                    <h3>System Vitals</h3>
+                    <div class="vital-item">
+                        <span class="vital-label">Core Status:</span>
+                        <span class="vital-value online">ONLINE</span>
+                    </div>
+                    <div class="vital-item">
+                        <span class="vital-label">Model:</span>
+                        <span class="vital-value" id="currentModel">Gemini</span>
+                    </div>
+                    <div class="vital-item">
+                        <span class="vital-label">Tasks Completed:</span>
+                        <span class="vital-value" id="tasksCompleted">0</span>
+                    </div>
+                    <div class="vital-item">
+                        <span class="vital-label">Session Time:</span>
+                        <span class="vital-value" id="sessionTime">00:00:00</span>
+                    </div>
+                </div>
+
+                <div class="active-tasks">
+                    <h3>Active Tasks</h3>
+                    <div class="tasks-container" id="activeTasks">
+                        <div class="task-item idle">
+                            <div class="task-status">IDLE</div>
+                            <div class="task-name">Waiting for tasks...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="created-files">
+                    <h3>Created Files</h3>
+                    <div class="files-container" id="createdFiles">
+                        <div class="file-item">
+                            <span class="file-type">LOG</span>
+                            <span class="file-name">No files created yet</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-history">
+                    <h3>Command History</h3>
+                    <div class="history-container" id="commandHistory">
+                        <div class="history-item">
+                            <span class="history-time">System Start</span>
+                            <span class="history-command">Dashboard initialized</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h3>ALI is working...</h3>
+                <p id="loadingText">Processing your request...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

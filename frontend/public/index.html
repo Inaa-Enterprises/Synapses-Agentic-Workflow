@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALI Cyberpunk Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Cyberpunk font: Orbitron, fallback to modern sans-serif -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="cyberpunk-bg"></div>
+  <div id="dashboard-root">
+    <header class="cyberpunk-header">
+      <h1 class="cyberpunk-title">ALI Operator's Rig</h1>
+    </header>
+    <main class="cyberpunk-main">
+      <!-- Operator's Terminal and Ghost-Runner's Deck will be rendered here -->
+      <canvas id="workflow-canvas"></canvas>
+      <section id="operator-terminal">
+        <!-- Terminal UI elements will go here -->
+      </section>
+      <section id="ghost-runner-deck">
+        <!-- Agent management/workflow canvas UI will go here -->
+      </section>
+      <form id="ali-input-form" class="cyberpunk-input-form" enctype="multipart/form-data">
+        <label for="ali-input-box">Command or Message:</label>
+        <input type="text" id="ali-input-box" title="Enter command or message for ALI" placeholder="Type your command or message for ALI..." required autocomplete="off" />
+        <label for="ali-file-input">File(s) to Upload:</label>
+        <input type="file" id="ali-file-input" title="Select file(s) to upload" placeholder="Select file(s) to upload" class="cyberpunk-file" multiple />
+        <button id="ali-submit-btn" title="Submit command or message" class="cyberpunk-btn" type="submit">Send</button>
+      </form>
+      <pre id="ali-output-area" class="cyberpunk-output"></pre>
+    </main>
+  </div>
+  <script src="main.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="canvas-state.js"></script>
+  <script src="operator-rig.js"></script>
+  <script src="agent-foundry.js"></script>
+</body>
+</html>

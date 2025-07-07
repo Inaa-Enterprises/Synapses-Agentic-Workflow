@@ -1,0 +1,14 @@
+{
+  "type": "postgres",
+  "host": "postgres",
+  "port": 5432,
+  "username": "ali",
+  "password": "ali_password",
+  "database": "ali_db",
+  "entities": ["dist/**/*.entity.js"],
+  "synchronize": false,
+  "migrations": ["dist/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}

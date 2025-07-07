@@ -1,0 +1,193 @@
+body {
+  background: #111216;
+  margin: 0;
+  padding: 0;
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+  color: #48f8e7;
+  letter-spacing: 0.06em;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#cyberpunk-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #1a1c22 70%, #5f259f 100%);
+  box-shadow: 0 0 120px 40px #a020f0 inset;
+  opacity: 0.96;
+}
+
+#dashboard-root {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px 24px 24px;
+}
+
+.cyberpunk-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 2px solid #a020f0;
+  margin-bottom: 36px;
+  padding-bottom: 12px;
+  background: rgba(34, 0, 51, 0.8);
+  box-shadow: 0 4px 32px #a020f0cc;
+}
+
+.cyberpunk-title {
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+  font-size: 2.7rem;
+  color: #a020f0;
+  letter-spacing: 0.14em;
+  text-shadow: 0 0 24px #a020f0, 0 0 6px #48f8e7;
+  font-weight: 900;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cyberpunk-main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+#workflow-canvas {
+  width: 100%;
+  height: 420px;
+  background: rgba(23, 24, 29, 0.95);
+  border: 2.5px solid #a020f0;
+  border-radius: 18px;
+  box-shadow: 0 0 36px #a020f0cc, 0 0 8px #48f8e7;
+  margin-bottom: 32px;
+  display: block;
+}
+
+#operator-terminal, #ghost-runner-deck {
+  background: rgba(17, 18, 22, 0.98);
+  border: 2px solid #a020f0;
+  border-radius: 14px;
+  box-shadow: 0 0 16px #a020f0cc, 0 0 4px #48f8e7;
+  padding: 28px 22px;
+  margin-bottom: 24px;
+}
+
+#operator-terminal {
+  font-size: 1.15rem;
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+  color: #48f8e7;
+  min-height: 120px;
+  letter-spacing: 0.09em;
+}
+
+#ghost-runner-deck {
+  font-size: 1.1rem;
+  color: #a020f0;
+  min-height: 180px;
+  letter-spacing: 0.08em;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #1a1c22;
+}
+::-webkit-scrollbar-thumb {
+  background: #a020f0;
+  border-radius: 8px;
+}
+
+.cyberpunk-input-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(23, 24, 29, 0.96);
+  border: 2px solid #a020f0;
+  border-radius: 14px;
+  box-shadow: 0 0 16px #a020f0cc, 0 0 4px #48f8e7;
+  padding: 18px 14px;
+  margin-bottom: 18px;
+}
+
+.cyberpunk-input {
+  flex: 1 1 auto;
+  background: #181923;
+  border: 2px solid #48f8e7;
+  border-radius: 10px;
+  color: #48f8e7;
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+  font-size: 1.1rem;
+  padding: 14px 12px;
+  outline: none;
+  box-shadow: 0 0 8px #48f8e7cc inset;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.cyberpunk-input:focus {
+  border: 2.5px solid #a020f0;
+  box-shadow: 0 0 12px #a020f0cc, 0 0 6px #48f8e7cc inset;
+}
+
+.cyberpunk-file {
+  color: #a020f0;
+  background: transparent;
+  border: none;
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+  font-size: 1.02rem;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.cyberpunk-btn {
+  background: linear-gradient(90deg, #a020f0 60%, #48f8e7 100%);
+  color: #fff;
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  box-shadow: 0 0 8px #a020f0cc, 0 0 4px #48f8e7cc;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  outline: none;
+  text-shadow: 0 0 8px #a020f0, 0 0 2px #48f8e7;
+}
+.cyberpunk-btn:focus, .cyberpunk-btn:hover {
+  background: linear-gradient(90deg, #48f8e7 40%, #a020f0 100%);
+  box-shadow: 0 0 16px #48f8e7cc, 0 0 8px #a020f0cc;
+}
+
+.cyberpunk-output {
+  background: #14151a;
+  color: #48f8e7;
+  border: 2px solid #a020f0;
+  border-radius: 10px;
+  font-family: 'Orbitron', 'Segoe UI', 'Arial', monospace;
+  font-size: 1.06rem;
+  padding: 18px 16px;
+  margin-top: 0;
+  min-height: 80px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 12px #a020f0cc, 0 0 4px #48f8e7cc;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-x: auto;
+}
+
+@media (max-width: 900px) {
+  #dashboard-root {
+    padding: 16px 4px;
+  }
+  .cyberpunk-title {
+    font-size: 2rem;
+  }
+  #workflow-canvas {
+    height: 240px;
+  }
+  .cyberpunk-input-form {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 6px;
+  }
+}

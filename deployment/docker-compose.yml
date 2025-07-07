@@ -1,0 +1,137 @@
+version: '3.8'
+
+services:
+  # ALI Backend API
+  ali-backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}
+      - GOOGLE_CLOUD_REGION=${GOOGLE_CLOUD_REGION}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GROK_API_KEY=${GROK_API_KEY}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - SANDBOX_TIMEOUT=300
+      - MAX_CONCURRENT_EXECUTIONS=5
+      - FRONTEND_URL=http://localhost:3000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../backend:/app
+    networks:
+      - ali-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Web Server
+  ali-frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_ALI_API_URL=http://localhost:8080
+    volumes:
+      - ../frontend:/usr/share/nginx/html:ro
+    networks:
+      - ali-network
+    restart: unless-stopped
+    depends_on:
+      - ali-backend
+
+  # Redis for session management and caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - ali-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # PostgreSQL for persistent data storage
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=ali_db
+      - POSTGRES_USER=ali_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-ali_secure_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ../database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - ali-network
+    restart: unless-stopped
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-logs:/var/log/nginx
+    networks:
+      - ali-network
+    restart: unless-stopped
+    depends_on:
+      - ali-backend
+      - ali-frontend
+
+  # Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - ali-network
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ../monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - ali-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+networks:
+  ali-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:
+  nginx-logs:
+  prometheus-data:
+  grafana-data:
